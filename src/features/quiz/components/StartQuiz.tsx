@@ -13,8 +13,8 @@ import { Store } from '../../../store/store';
 import { styles } from '../styles/start_quiz';
 
 enum Difficulty {
-  Easy = 'EASY',
-  Hard = 'HARD',
+  Easy = 'easy',
+  Hard = 'hard',
 }
 
 interface State {
@@ -35,12 +35,13 @@ class StartQuiz extends Component<Props, State> {
   ]
   public state: State = {
     difficulty: Difficulty.Easy,
-    amount: '',
+    amount: '10',
   }
   private handleDifficulty = (difficulty: Difficulty) => this.setState({difficulty});
   private handleAmount = (amount: string) => this.setState({amount});
   private handleBeginQuiz = async () => {
-    await this.props.getQuestions({amount: 10, difficulty: 'easy'});
+    const {amount, difficulty} = this.state;
+    await this.props.getQuestions({amount: parseInt(amount), difficulty});
 
     this.props.navigation.navigate(RootScreens.GamePlay, {question: 0});
   };
@@ -79,5 +80,4 @@ const mapStateToProps = (state: Store) => ({
   fetchError: state.quiz.error,
 });
 
-// @ts-ignore
 export default connect(mapStateToProps, {getQuestions})(StartQuiz);

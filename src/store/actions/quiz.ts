@@ -2,14 +2,14 @@ import axios from 'axios';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 
-import {Question} from '../../models/question';
+import {Question, QuestionJSON} from '../../models/question';
 
-export type Actions = QuestionsReceivedAction | QuestionsErrorAction | NextQuestionAction;
+export type Actions = QuestionsReceivedAction | QuestionsErrorAction | SetupAnswerAction;
 
 export enum QuizActions {
   QuestionsReceived = 'QUESTIONS_RECEIVED',
   QuestionsError = 'QUESTIONS_EROROR',
-  SelectQuestion = 'SELECT_QUESTION',
+  SetupAnswer = 'SETUP_ANSWER',
 }
 
 interface QuestionsReceivedAction {
@@ -34,14 +34,14 @@ export const questionsError = (error: string): QuestionsErrorAction => ({
   payload: {error},
 });
 
-interface NextQuestionAction {
-    type: QuizActions.SelectQuestion;
-    payload: {questionIndex: number};
+interface SetupAnswerAction {
+  type: QuizActions.SetupAnswer;
+  payload: {selectedQuestion: number, answer: boolean};
 }
 
-export const nextQuestion = (selectedQuestion: number): NextQuestionAction => ({
-    type: QuizActions.SelectQuestion,
-    payload: {questionIndex: selectedQuestion},
+export const setupAnswer = (selectedQuestion: number, answer: boolean): SetupAnswerAction => ({
+  type: QuizActions.SetupAnswer,
+  payload: {selectedQuestion, answer},
 })
 
 export const getQuestions = ({
@@ -52,11 +52,16 @@ export const getQuestions = ({
   amount: number;
 }) => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
   try {
-    const res = await axios.get<{results: Array<Question>}>(
-      'https://opentdb.com/api.php?amount=10&difficulty=easy&type=boolean',
-      {params: {amount, difficulty}},
+    const res = await axios.get<{results: Array<QuestionJSON>}>(
+      'https://opentdb.com/api.php',
+      {params: {amount, difficulty, type: 'boolean'}},
     );
-    dispatch(questionsReceived(res.data.results));
+    const questions = res.data.results.map(q => ({
+      ...q,
+      correct_answer: q.correct_answer.toLocaleLowerCase() === 'true',
+      result: false,
+    }));
+    dispatch(questionsReceived(questions));
   } catch (error) {
     dispatch(questionsError(error.message));
   }

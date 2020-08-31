@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
   },
   questionCard: {
     borderRadius: 20,
-    width: '90%',
-    height: '40%',
+    minWidth: '90%',
+    minHeight: '40%',
 
     backgroundColor: '#fff',
 

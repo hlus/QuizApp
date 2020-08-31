@@ -6,15 +6,15 @@ import { connect } from 'react-redux';
 
 import { Button, ButtonType } from '../../../components/button';
 import { RootStackParamList, RootScreens } from '../../../../App';
-import { nextQuestion } from '../../../store/actions/quiz';
+import { setupAnswer } from '../../../store/actions/quiz';
 import { Store } from '../../../store/store';
+import { Question } from '../../../models/question';
 
 import { styles } from '../styles/game_play';
-import { Question } from '../../../models/question';
 
 interface Props {
     questions: Array<Question>;
-    nextQuestion: (question: number) => void;
+    setupAnswer: (selectedQuestion: number, answer: boolean) => void;
     route: RouteProp<RootStackParamList, RootScreens.GamePlay>;
     navigation: StackNavigationProp<RootStackParamList, RootScreens.GamePlay>;
 }
@@ -24,19 +24,24 @@ class GamePlay extends Component<Props> {
     private get question(){ return this.props.questions[this.questionIndex]; }
 
     private handleTrue = () => {
+        this.props.setupAnswer(this.questionIndex, this.question.correct_answer === true);
         this.goNext();
     }
 
     private handleFalse = () => {
+        this.props.setupAnswer(this.questionIndex, this.question.correct_answer === false);
         this.goNext();
     }
 
     private goNext = () => {
-        this.props.navigation.navigate(RootScreens.GamePlay, {question: this.questionIndex + 1});
+        if(this.questionIndex === this.props.questions.length - 1){
+            this.props.navigation.reset({index: 0, routes: [{ name: RootScreens.GameResults }]});
+        } else {
+            this.props.navigation.navigate(RootScreens.GamePlay, {question: this.questionIndex + 1});
+        }
     }
 
     public render() {
-        console.log({ props: this.props });
         return (
             <SafeAreaView style={styles.safeArea}>
                 <Text style={styles.categoryText}>{this.question.category}</Text>
@@ -59,4 +64,4 @@ const mapStateToProps = (state: Store) => ({
     questions: state.quiz.questions,
 });
 
-export default connect(mapStateToProps, {nextQuestion})(GamePlay);
+export default connect(mapStateToProps, {setupAnswer})(GamePlay);
