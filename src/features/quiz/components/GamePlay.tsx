@@ -4,11 +4,12 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {connect} from 'react-redux';
 
+import {RootStackParamList} from '../../../navigation/root_params';
 import {Button, ButtonType} from '../../../components/button';
-import {RootStackParamList, RootScreens} from '../../../../App';
+import {RootScreens} from '../../../navigation/screens';
 import {setupAnswer} from '../../../store/actions/quiz';
-import {Store} from '../../../store/store';
 import {Question} from '../../../models/question';
+import {Store} from '../../../store/store';
 
 import {styles} from '../styles/game_play';
 

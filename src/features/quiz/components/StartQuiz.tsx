@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {Text, SafeAreaView, View, Alert} from 'react-native';
+import {Text, SafeAreaView, View, Alert, Keyboard} from 'react-native';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import {TextInput} from 'react-native-gesture-handler';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {RootStackParamList, RootScreens} from '../../../../App';
+import {RootStackParamList} from '../../../navigation/root_params';
 import {getQuestions} from '../../../store/actions/quiz';
+import {RootScreens} from '../../../navigation/screens';
 import {Button} from '../../../components/button';
 import {Store} from '../../../store/store';
 
@@ -59,7 +60,7 @@ class StartQuiz extends Component<Props, State> {
 
   public render() {
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView onTouchStart={Keyboard.dismiss} style={styles.safeArea}>
         <Text style={styles.headerText}>Welcome to the Trivia Challenge!</Text>
         <View style={styles.contentWrapper}>
           <View style={styles.pickerWrapper}>

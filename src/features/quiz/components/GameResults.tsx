@@ -10,7 +10,8 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {connect} from 'react-redux';
 
-import {RootScreens, RootStackParamList} from '../../../../App';
+import {RootStackParamList} from '../../../navigation/root_params';
+import {RootScreens} from '../../../navigation/screens';
 import MinusImg from '../../../assets/images/minus.png';
 import PlusImg from '../../../assets/images/plus.png';
 import {Question} from '../../../models/question';
