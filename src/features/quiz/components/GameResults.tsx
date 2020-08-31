@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Text, View, SafeAreaView, FlatList, ListRenderItemInfo, Image} from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { connect } from 'react-redux';
-import {  } from 'react-native-gesture-handler';
 
 import { RootScreens, RootStackParamList } from '../../../../App';
 import MinusImg from '../../../assets/images/minus.png';

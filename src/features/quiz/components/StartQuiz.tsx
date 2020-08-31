@@ -55,8 +55,8 @@ class StartQuiz extends Component<Props, State> {
             <RNPickerSelect
                 value={this.state.difficulty}
                 onValueChange={this.handleDifficulty}
-                placeholder="difficulty"
                 items={StartQuiz.difficultyOptions}
+                // @ts-ignore
                 textInputProps={{style: styles.selectText}}
             />
           </View>
