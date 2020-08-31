@@ -18,7 +18,20 @@ export const styles = StyleSheet.create({
     paddingTop: '40%',
     paddingBottom: '90%',
   },
+  pickerWrapper: {
+    width: '60%',
+    borderWidth: 2,
+  },
+  amountInput: {
+    width: '60%',
+    borderWidth: 2,
+    fontSize: 24,
+  },
   selectText: {
     fontSize: 24,
-  }
+  },
+  buttonWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

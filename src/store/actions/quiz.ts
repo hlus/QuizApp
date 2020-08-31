@@ -4,7 +4,10 @@ import {AnyAction} from 'redux';
 
 import {Question, QuestionJSON} from '../../models/question';
 
-export type Actions = QuestionsReceivedAction | QuestionsErrorAction | SetupAnswerAction;
+export type Actions =
+  | QuestionsReceivedAction
+  | QuestionsErrorAction
+  | SetupAnswerAction;
 
 export enum QuizActions {
   QuestionsReceived = 'QUESTIONS_RECEIVED',
@@ -12,7 +15,7 @@ export enum QuizActions {
   SetupAnswer = 'SETUP_ANSWER',
 }
 
-interface QuestionsReceivedAction {
+export interface QuestionsReceivedAction {
   type: QuizActions.QuestionsReceived;
   payload: {questions: Array<Question>};
 }
@@ -24,9 +27,9 @@ export const questionsReceived = (
   payload: {questions},
 });
 
-interface QuestionsErrorAction {
-    type: QuizActions.QuestionsError;
-    payload: {error: string};
+export interface QuestionsErrorAction {
+  type: QuizActions.QuestionsError;
+  payload: {error: string};
 }
 
 export const questionsError = (error: string): QuestionsErrorAction => ({
@@ -34,15 +37,18 @@ export const questionsError = (error: string): QuestionsErrorAction => ({
   payload: {error},
 });
 
-interface SetupAnswerAction {
+export interface SetupAnswerAction {
   type: QuizActions.SetupAnswer;
-  payload: {selectedQuestion: number, answer: boolean};
+  payload: {selectedQuestion: number; answer: boolean};
 }
 
-export const setupAnswer = (selectedQuestion: number, answer: boolean): SetupAnswerAction => ({
+export const setupAnswer = (
+  selectedQuestion: number,
+  answer: boolean,
+): SetupAnswerAction => ({
   type: QuizActions.SetupAnswer,
   payload: {selectedQuestion, answer},
-})
+});
 
 export const getQuestions = ({
   amount,
@@ -56,7 +62,7 @@ export const getQuestions = ({
       'https://opentdb.com/api.php',
       {params: {amount, difficulty, type: 'boolean'}},
     );
-    const questions = res.data.results.map(q => ({
+    const questions = res.data.results.map((q) => ({
       ...q,
       correct_answer: q.correct_answer.toLocaleLowerCase() === 'true',
       result: false,
