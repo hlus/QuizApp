@@ -12,5 +12,17 @@ export const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    outlineContainder: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: '#17D1FF',
+        padding: 8,
+        borderRadius: 11,
+    },
+    outlineLabel: {
+        color: '#17D1FF',
+        fontSize: 15,
+        fontWeight: '500'
     }
 })

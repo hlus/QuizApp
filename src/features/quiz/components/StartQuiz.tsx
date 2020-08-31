@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import {Text, SafeAreaView, View} from 'react-native';
+import { Text, SafeAreaView, View } from 'react-native';
+import { connect } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import { TextInput } from 'react-native-gesture-handler';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import {Button} from '../../../components/button';
-
-import {styles} from '../styles/start_quiz';
 import { RootStackParamList, RootScreens } from '../../../../App';
+import { getQuestions } from '../../../store/actions/quiz';
+import { Button } from '../../../components/button';
+import { Store } from '../../../store/store';
+
+import { styles } from '../styles/start_quiz';
 
 enum Difficulty {
   Easy = 'EASY',
@@ -20,11 +23,12 @@ interface State {
 }
 
 interface Props {
+  getQuestions: ({amount, difficulty}: {difficulty: string, amount: number}) => Promise<void>;
   navigation: StackNavigationProp<RootStackParamList, RootScreens.Start>;
 }
 
 
-export class StartQuiz extends Component<Props, State> {
+class StartQuiz extends Component<Props, State> {
   private static difficultyOptions = [
     {label: 'Easy', value: Difficulty.Easy},
     {label: 'Hard', value: Difficulty.Hard},
@@ -35,8 +39,10 @@ export class StartQuiz extends Component<Props, State> {
   }
   private handleDifficulty = (difficulty: Difficulty) => this.setState({difficulty});
   private handleAmount = (amount: string) => this.setState({amount});
-  private handleBeginQuiz = () => {
-    this.props.navigation.navigate(RootScreens.GamePlay)
+  private handleBeginQuiz = async () => {
+    await this.props.getQuestions({amount: 10, difficulty: 'easy'});
+
+    this.props.navigation.navigate(RootScreens.GamePlay, {question: 0});
   };
 
   public render() {
@@ -68,3 +74,10 @@ export class StartQuiz extends Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = (state: Store) => ({
+  fetchError: state.quiz.error,
+});
+
+// @ts-ignore
+export default connect(mapStateToProps, {getQuestions})(StartQuiz);

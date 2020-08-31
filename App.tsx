@@ -4,8 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 
-import { StartQuiz } from './src/features/quiz/components/StartQuiz';
-import { GamePlay } from './src/features/quiz/components/GamePlay';
+import StartQuiz from './src/features/quiz/components/StartQuiz';
+import GamePlay from './src/features/quiz/components/GamePlay';
 import { store } from './src/store/store';
 
 export enum RootScreens {
@@ -15,7 +15,7 @@ export enum RootScreens {
 
 export type RootStackParamList = {
   [RootScreens.Start]: undefined;
-  [RootScreens.GamePlay]: undefined;
+  [RootScreens.GamePlay]: {question: number};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
