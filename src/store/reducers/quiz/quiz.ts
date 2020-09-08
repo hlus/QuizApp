@@ -1,31 +1,28 @@
-import {QuizActions, Actions} from '../../actions/quiz';
+import {QuizActions, Actions} from '../../actions/quiz.typings';
 import {Question} from '../../../models/question';
-
-const initialState = {
-  questions: [],
-  error: '',
-};
 
 export interface QuizStore {
   questions: Array<Question>;
   error: string;
 }
 
-export const quiz = (
-  state = initialState,
-  {type, payload}: Actions,
-): QuizStore => {
-  switch (type) {
+const initialState: QuizStore = {
+  questions: [],
+  error: '',
+};
+
+export const quiz = (state = initialState, action: Actions): QuizStore => {
+  switch (action.type) {
     case QuizActions.QuestionsReceived:
-      return {...state, questions: payload.questions};
+      return {...state, questions: action.payload.questions};
     case QuizActions.QuestionsError:
-      return {...state, error: payload.error};
+      return {...state, error: action.payload.error};
     case QuizActions.SetupAnswer:
-      const question = state.questions[payload.selectedQuestion];
+      const question = state.questions[action.payload.selectedQuestion];
       const questions = state.questions.slice();
-      questions[payload.selectedQuestion] = {
+      questions[action.payload.selectedQuestion] = {
         ...question,
-        result: payload.answer,
+        result: action.payload.answer,
       };
       return {...state, questions};
     default:

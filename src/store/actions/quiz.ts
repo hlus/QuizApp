@@ -3,22 +3,12 @@ import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 
 import {Question, QuestionJSON} from '../../models/question';
-
-export type Actions =
-  | QuestionsReceivedAction
-  | QuestionsErrorAction
-  | SetupAnswerAction;
-
-export enum QuizActions {
-  QuestionsReceived = 'QUESTIONS_RECEIVED',
-  QuestionsError = 'QUESTIONS_EROROR',
-  SetupAnswer = 'SETUP_ANSWER',
-}
-
-export interface QuestionsReceivedAction {
-  type: QuizActions.QuestionsReceived;
-  payload: {questions: Array<Question>};
-}
+import {
+  QuestionsReceivedAction,
+  QuizActions,
+  QuestionsErrorAction,
+  SetupAnswerAction,
+} from './quiz.typings';
 
 export const questionsReceived = (
   questions: Array<Question>,
@@ -27,20 +17,10 @@ export const questionsReceived = (
   payload: {questions},
 });
 
-export interface QuestionsErrorAction {
-  type: QuizActions.QuestionsError;
-  payload: {error: string};
-}
-
 export const questionsError = (error: string): QuestionsErrorAction => ({
   type: QuizActions.QuestionsError,
   payload: {error},
 });
-
-export interface SetupAnswerAction {
-  type: QuizActions.SetupAnswer;
-  payload: {selectedQuestion: number; answer: boolean};
-}
 
 export const setupAnswer = (
   selectedQuestion: number,
